@@ -1,0 +1,47 @@
+fail_fast: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: end-of-file-fixer
+        exclude: badges
+      - id: trailing-whitespace
+        exclude: badges
+
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        args: [ --config=pyproject.toml ]
+
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v2.1.2
+    hooks:
+      - id: pycln
+        args: [ --config=pyproject.toml ]
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        files: "\\.(py)$"
+        args: [ --settings-path=pyproject.toml ]
+
+  - repo: https://github.com/pycqa/pylint
+    rev: v2.17.4
+    hooks:
+    -   id: pylint
+        args:
+            - --fail-under=7.5
+            - --disable=import-error
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        language: system
+        entry: mypy
+        args: [ src, --config-file=pyproject.toml ]
+        types: [ python ]
+        pass_filenames: false
+        require_serial: true

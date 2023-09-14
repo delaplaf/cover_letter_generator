@@ -1,0 +1,7 @@
+bs4
+selenium
+ipykernel
+notebook
+pre-commit
+mypy
+types-requests
