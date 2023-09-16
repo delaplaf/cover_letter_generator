@@ -5,3 +5,6 @@ notebook
 pre-commit
 mypy
 types-requests
+PyPDF2
+PyPDF2[crypto]
+streamlit

@@ -1,10 +1,12 @@
+from typing import Any, Dict
+
 import requests
 from bs4 import BeautifulSoup, element
 from selenium import webdriver
-from type import List
+from selenium.webdriver.chrome.options import Options
 
 
-def extract_data_from_url(url: str) -> List[element.Tag]:
+def extract_data_from_url(url: str) -> Dict[str, Any]:
     html = requests.get(url).text
     soup = BeautifulSoup(html, features="html.parser")
 
@@ -15,7 +17,11 @@ def extract_data_from_url(url: str) -> List[element.Tag]:
 
     company_info = extract_company_info_from_job_html(soup)
 
-    return job_title, job_description, company_info
+    return {
+        "job_title": job_title,
+        "job_description": job_description,
+        "company_info": company_info,
+    }
 
 
 def extract_company_info_from_job_html(soup: BeautifulSoup) -> element.Tag:
@@ -23,7 +29,10 @@ def extract_company_info_from_job_html(soup: BeautifulSoup) -> element.Tag:
         "href"
     )
 
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    driver = webdriver.Chrome(options=chrome_options)
+
     driver.get(link_company)
 
     # Obtenez le contenu de la page après que JavaScript ait pu se charger
