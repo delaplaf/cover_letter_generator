@@ -19,5 +19,5 @@ Langchain is used to vectorize our data but in reality we have quite little of i
 
 ### Run
 ```
-streamlit run app.py
+streamlit run src/app.py
 ```
