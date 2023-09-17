@@ -28,6 +28,9 @@ if __name__ == "__main__":
             "ChatGPT API Key *", value=st.session_state["openai_api_key"]
         )
 
+        model = st.sidebar.radio(
+            "Model:", ["gpt-3.5-turbo", "gpt-4"], horizontal=True
+        )
         temperature = st.sidebar.slider("Temperature", 0.0, 1.0, value=0.7)
         linkedin_url = st.text_area("Linkedin Job URL: *")
         cv_file = st.file_uploader(
@@ -54,6 +57,7 @@ if __name__ == "__main__":
             model_parameters = {
                 "api_key": st.session_state["openai_api_key"],
                 "temperature": temperature,
+                "model": model,
             }
             st.write(generate_cover_letter(data, model_parameters, language))
 

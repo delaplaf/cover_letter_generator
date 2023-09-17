@@ -22,26 +22,14 @@ def generate_cover_letter(
 
 def get_query(language: str) -> str:
     query = (
-        "I want you to act as a cover letter writer. "
-        "I'll provide you with the job advert, main information on the company,"
-        "my resume and sometimes other informations. "
-        "Use this information to create a custom, professional and "
-        "effective cover letter for the job advert. "
-        "Start by answering the following questions before creating the cover letter:"
-        "What are my contact details? you can find them in my resume"
-        "What is the company name? you can find it in the job offer"
-        "What is the title of the job offer?"
-        "Which kind of company it is? you can find it in the job offer and company informations"
-        "Which skills on my resume are important for the job offer?"
-        "Did I provide other useful information to personalize the result?"
-        "With your answers to the previous questions, I'd like you to help me write a cover letter"
-        "that consists of three paragraphs and follows this structure."
-        "In the first paragraph, highlight details about the company and give specific reasons"
-        "as to why I'm interested in joining it. Use the next paragraph to highlight"
-        "any of my relevant skills, experiences, or accomplishments that align with the job."
-        "The third and final paragraph should once again highlight why I'm a good fit for"
-        "the company culture and role."
-        "Use professional language and tone. Follow the best cover letter writing practices. "
+        "I want you to act as a cover letter writer."
+        "I'll provide you with a job advert, main information on the company,"
+        "a resume and sometimes other informations."
+        "Use this information to create a custom cover letter for the job advert"
+        "The cover letter should follow this structure structure:\n\n"
+        "Paragraphe 1: highlight informations about the job and the company, and why I'm interested in joining it\n"
+        "Paragraphe 2: skills and experiences from my resume and other informations that align with the job description.\n"
+        "Paragraphe 3: why I'm a good fit for the role and company culture.\n"
         f"Result should be in {language}"
     )
     return query
@@ -60,7 +48,7 @@ def qa_data(
     qa_chain = RetrievalQA.from_chain_type(
         ChatOpenAI(
             temperature=model_parameters["temperature"],
-            model="gpt-3.5-turbo",
+            model=model_parameters["model"],
             openai_api_key=model_parameters["api_key"],
         ),
         retriever=vectordb.as_retriever(search_kwargs={"k": 7}),
@@ -72,8 +60,8 @@ def qa_data(
 
 def split_all_text_in_documents(data: Dict[str, str]) -> List[Document]:
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
+        chunk_size=600,
+        chunk_overlap=0,
         length_function=len,
     )
 

@@ -18,7 +18,7 @@ def extract_data(data: Dict[str, Any]) -> Dict[str, str]:
 def load_pdf(pdf: Union[str, IO, Path]) -> str:
     if pdf:
         pdf_reader = PdfReader(pdf)
-        return "CV/RESUME: " + "\n".join(
+        return "RESUME: " + "\n".join(
             page.extract_text() for page in pdf_reader.pages
         )
     else:
