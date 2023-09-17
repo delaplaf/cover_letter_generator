@@ -22,7 +22,7 @@ def load_pdf(pdf: Union[str, IO, Path]) -> str:
             page.extract_text() for page in pdf_reader.pages
         )
     else:
-        return "CV/RESUME: Not provided"
+        return "RESUME: Not provided"
 
 
 def extract_data_from_url(url: str) -> Dict[str, Any]:
