@@ -9,13 +9,14 @@ Langchain is used to vectorize our data but in reality we have quite little of i
 
 ## Demo
 
-[View Live Demo](https://easy-cover-letter-powered-by-gpt.streamlit.app/)
+[View Live Demo](https://easy-cover-letter-powered-by-ai.streamlit.app/)
 
 ## Quickstart
 
 ### Prerequisites
 - Install packages in requirements.txt
 - You need an OPEN AI Api key
+- Chrome if you want to also get basic company data from linkedin (disable on demo)
 
 ### Run
 ```
