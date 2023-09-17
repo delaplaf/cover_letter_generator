@@ -9,6 +9,14 @@ url = (
 )
 
 
+def check_linkedin_url(url: str) -> bool:
+    return url.startswith(r"https://www.linkedin.com/jobs/view")
+
+
+def check_openai_api_key(openai_api_key: str) -> bool:
+    return openai_api_key.startswith("sk-")
+
+
 if __name__ == "__main__":
     st.title("Cover Letter powered by AI")
 
@@ -29,8 +37,11 @@ if __name__ == "__main__":
 
         submit = st.form_submit_button("Generate")
 
-    if submit and linkedin_url and st.session_state["openai_api_key"]:
-        # with st.chat_message("ai"):
+    if (
+        submit
+        and check_linkedin_url(linkedin_url)
+        and check_openai_api_key(st.session_state["openai_api_key"])
+    ):
         with st.spinner("Thinking..."):
             linkedin_url = url  # TODO
 
