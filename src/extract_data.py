@@ -1,9 +1,25 @@
-from typing import Any, Dict
+from pathlib import Path
+from typing import IO, Any, Dict, Union
 
 import requests
 from bs4 import BeautifulSoup, element
+from PyPDF2 import PdfReader
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
+
+def extract_data(data: Dict[str, Any]) -> Dict[str, str]:
+    cv = load_pdf(data["cv"])
+    linkedin_data = extract_data_from_url(data["url"])
+
+    return {"cv": cv} | linkedin_data | {"other": data["other"]}
+
+
+def load_pdf(pdf: Union[str, IO, Path]) -> str:
+    pdf_reader = PdfReader(pdf)
+    return "CV/RESUME: " + "\n".join(
+        page.extract_text() for page in pdf_reader.pages
+    )
 
 
 def extract_data_from_url(url: str) -> Dict[str, Any]:
@@ -18,9 +34,9 @@ def extract_data_from_url(url: str) -> Dict[str, Any]:
     company_info = extract_company_info_from_job_html(soup)
 
     return {
-        "job_title": job_title,
-        "job_description": job_description,
-        "company_info": company_info,
+        "job_title": "JOB TITLE: " + job_title,
+        "job_description": "JOB DESCRIPTION: " + job_description,
+        "company_info": "COMPANY INFO: " + company_info,
     }
 
 

@@ -2,11 +2,17 @@ import streamlit as st
 
 from generate import generate_cover_letter
 
+url = (
+    r"https://www.linkedin.com/jobs/view/3720693103/"
+    r"?alternateChannel=search&refId=Ot2vLR9dlvhIFMDob0MYBQ%3D%"
+    r"3D&trackingId=yLPZnrcB%2BiqLioIipdVgsA%3D%3D"
+)
+
+
 if __name__ == "__main__":
     st.title("Cover Letter powered by AI")
 
     if "openai_api_key" not in st.session_state:
-        print("ok")
         st.session_state["openai_api_key"] = ""
 
     with st.form("generate"):
@@ -14,7 +20,7 @@ if __name__ == "__main__":
             "ChatGPT API Key *", value=st.session_state["openai_api_key"]
         )
 
-        temperature = st.sidebar.slider("Temperature", 0.0, 1.0, value=0.3)
+        temperature = st.sidebar.slider("Temperature", 0.0, 1.0, value=0.7)
         linkedin_url = st.text_area("Linkedin Job URL: *")
         cv_file = st.file_uploader(
             "Upload CV", type=["pdf"], accept_multiple_files=False
@@ -24,18 +30,20 @@ if __name__ == "__main__":
         submit = st.form_submit_button("Generate")
 
     if submit and linkedin_url and st.session_state["openai_api_key"]:
-        with st.chat_message("ai"):
-            with st.spinner("Thinking..."):
-                data = {
-                    "url": linkedin_url,
-                    "cv": cv_file,
-                    "other": other,
-                }
-                model_parameters = {
-                    "api_key": st.session_state["openai_api_key"],
-                    "temperature": temperature,
-                }
-                st.write(generate_cover_letter(data, model_parameters))
+        # with st.chat_message("ai"):
+        with st.spinner("Thinking..."):
+            linkedin_url = url  # TODO
+
+            data = {
+                "url": linkedin_url,
+                "cv": cv_file,
+                "other": other,
+            }
+            model_parameters = {
+                "api_key": st.session_state["openai_api_key"],
+                "temperature": temperature,
+            }
+            st.write(generate_cover_letter(data, model_parameters))
 
     else:
         st.warning("Please provide your API key and a Linkedin url", icon="⚠")

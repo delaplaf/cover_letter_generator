@@ -8,3 +8,7 @@ types-requests
 PyPDF2
 PyPDF2[crypto]
 streamlit
+langchain
+chromadb
+openai
+tiktoken
