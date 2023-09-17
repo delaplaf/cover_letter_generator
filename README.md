@@ -9,7 +9,7 @@ Langchain is used to vectorize our data but in reality we have quite little of i
 
 ## Demo
 
-[View Live Demo]()
+[View Live Demo](https://easy-cover-letter-powered-by-gpt.streamlit.app/)
 
 ## Quickstart
 
