@@ -8,31 +8,16 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 
 from extract_data import extract_data
+from prompt import get_prompt_template, get_query
 
 
 def generate_cover_letter(
     data: Dict[str, Any], model_parameters: Dict[str, Any], language: str
 ) -> Any:
     extracted_data = extract_data(data)
-    print(extracted_data)
     query = get_query(language)
 
     return qa_data(extracted_data, model_parameters, query)
-
-
-def get_query(language: str) -> str:
-    query = (
-        "I want you to act as a cover letter writer."
-        "I'll provide you with a job advert, main information on the company,"
-        "a resume and sometimes other informations."
-        "Use this information to create a custom cover letter for the job advert"
-        "The cover letter should follow this structure:\n\n"
-        "Paragraphe 1: highlight informations about the job and the company, and why I'm interested in joining it\n"
-        "Paragraphe 2: skills and experiences from my resume and other informations that align with the job description.\n"
-        "Paragraphe 3: why I'm a good fit for the role and company culture.\n"
-        f"Result should be in {language}"
-    )
-    return query
 
 
 def qa_data(
@@ -53,19 +38,26 @@ def qa_data(
         ),
         retriever=vectordb.as_retriever(search_kwargs={"k": 7}),
         chain_type="stuff",
+        chain_type_kwargs={"prompt": get_prompt_template()},
     )
 
     return qa_chain.run(query)
 
 
 def split_all_text_in_documents(data: Dict[str, str]) -> List[Document]:
+    """Split all data into langchain documents chunk
+
+    Args:
+        data (Dict[str, str]): resume, linkedin extracted data and other informations
+
+    Returns:
+        List[Document]: documents with chunch of data
+    """
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=600,
         chunk_overlap=0,
         length_function=len,
     )
 
-    documents = text_splitter.create_documents(
-        [text for text in data.values()]
-    )
+    documents = text_splitter.create_documents(list(data.values()))
     return text_splitter.split_documents(documents)
