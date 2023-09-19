@@ -26,7 +26,7 @@ def get_query(language: str) -> str:
         "I'll provide you with a job advert, main information on the company,"
         "a resume and sometimes other informations."
         "Use this information to create a custom cover letter for the job advert"
-        "The cover letter should follow this structure structure:\n\n"
+        "The cover letter should follow this structure:\n\n"
         "Paragraphe 1: highlight informations about the job and the company, and why I'm interested in joining it\n"
         "Paragraphe 2: skills and experiences from my resume and other informations that align with the job description.\n"
         "Paragraphe 3: why I'm a good fit for the role and company culture.\n"

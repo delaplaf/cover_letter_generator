@@ -34,7 +34,7 @@ if __name__ == "__main__":
         temperature = st.sidebar.slider("Temperature", 0.0, 1.0, value=0.7)
         linkedin_url = st.text_area("Linkedin Job URL: *")
         cv_file = st.file_uploader(
-            "Upload CV:", type=["pdf"], accept_multiple_files=False
+            "Upload Resume:", type=["pdf"], accept_multiple_files=False
         )
         other = st.text_area("Other informations:", other_information_text)
         language = st.radio(
